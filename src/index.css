@@ -1,0 +1,169 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f0f2f5;
+  color: #1c1e21;
+}
+
+#root {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ---- Page header ---- */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 20px;
+  color: #1877f2;
+}
+
+/* ---- New comment form ---- */
+.new-comment-form {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  margin-bottom: 24px;
+}
+
+.new-comment-form h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  margin-bottom: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: #1877f2;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: opacity 0.15s;
+}
+
+.btn:hover { opacity: 0.85; }
+
+.btn-primary {
+  background: #1877f2;
+  color: #fff;
+}
+
+.btn-ghost {
+  background: #e4e6eb;
+  color: #050505;
+}
+
+.btn-like {
+  background: transparent;
+  border: 1px solid #ccd0d5;
+  color: #65676b;
+  padding: 3px 10px;
+}
+
+.btn-like.liked {
+  color: #1877f2;
+  border-color: #1877f2;
+}
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #e41e3f;
+  padding: 3px 8px;
+}
+
+.btn-danger:hover {
+  background: #fff0f2;
+  opacity: 1;
+}
+
+/* ---- Comment card ---- */
+.comment-wrapper {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.comment-wrapper:first-child {
+  margin-left: 0;
+}
+
+.comment-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.comment-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.comment-author {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.comment-date {
+  color: #65676b;
+  font-size: 0.8rem;
+}
+
+.comment-text {
+  margin: 0 0 10px;
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ---- Reply form ---- */
+.reply-form {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e4e6eb;
+}
+
+/* ---- Thread connector line ---- */
+.comment-children {
+  border-left: 2px solid #e4e6eb;
+  margin-left: 14px;
+}

@@ -19,84 +19,105 @@ const Comment = ({ comment, addReply, deleteComment, editComment, likeComment })
   };
 
   return (
-    <div style={{ marginLeft: "20px", marginTop: "10px" }}>
-      <div style={{ border: "1px solid gray", padding: "10px" }}>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "4px" }}>
-          <strong>{comment.author}</strong>
-          <span style={{ color: "#888", fontSize: "0.85em" }}>
+    <div className="comment-wrapper">
+      <div className="comment-card">
+        <div className="comment-meta">
+          <span className="comment-author">{comment.author}</span>
+          <span className="comment-date">
             {formatDate(comment.createdAt)}
-            {comment.edited && " (edited)"}
+            {comment.edited && " · edited"}
           </span>
         </div>
 
         {isEditing ? (
-          <div style={{ marginBottom: "8px" }}>
+          <div className="reply-form">
             <textarea
+              className="form-textarea"
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
               rows={3}
-              style={{ display: "block", width: "400px", marginBottom: "4px" }}
             />
-            <button onClick={saveEdit}>Save</button>
-            <button onClick={() => { setIsEditing(false); setEditText(comment.text); }} style={{ marginLeft: "6px" }}>
-              Cancel
-            </button>
+            <div style={{ display: "flex", gap: "6px" }}>
+              <button className="btn btn-primary" onClick={saveEdit}>Save</button>
+              <button
+                className="btn btn-ghost"
+                onClick={() => { setIsEditing(false); setEditText(comment.text); }}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         ) : (
-          <p style={{ margin: "4px 0 8px" }}>{comment.text}</p>
+          <p className="comment-text">{comment.text}</p>
         )}
 
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <button onClick={() => likeComment(comment.id)}>
+        <div className="comment-actions">
+          <button className="btn btn-like" onClick={() => likeComment(comment.id)}>
             ▲ {comment.likes}
           </button>
-          <button onClick={() => setShowReply(!showReply)}>Reply</button>
-          <button onClick={() => { setIsEditing(true); setEditText(comment.text); }}>Edit</button>
-          <button onClick={() => deleteComment(comment.id)} style={{ color: "red" }}>Delete</button>
+          <button className="btn btn-ghost" onClick={() => setShowReply(!showReply)}>
+            Reply
+          </button>
+          <button
+            className="btn btn-ghost"
+            onClick={() => { setIsEditing(true); setEditText(comment.text); }}
+          >
+            Edit
+          </button>
+          <button className="btn btn-danger" onClick={() => deleteComment(comment.id)}>
+            Delete
+          </button>
         </div>
 
         {showReply && (
-          <div style={{ marginTop: "8px" }}>
+          <div className="reply-form">
             <input
+              className="form-input"
               placeholder="Your name"
               value={replyAuthor}
               onChange={(e) => setReplyAuthor(e.target.value)}
-              style={{ display: "block", marginBottom: "4px" }}
             />
             <input
+              className="form-input"
               placeholder="Write a reply…"
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
-              style={{ display: "block", marginBottom: "4px", width: "300px" }}
             />
-            <button
-              onClick={() => {
-                if (!replyText.trim()) return;
-                addReply(comment.id, replyText.trim(), replyAuthor.trim() || "Anonymous");
-                setReplyText("");
-                setReplyAuthor("");
-                setShowReply(false);
-              }}
-            >
-              Add Reply
-            </button>
-            <button onClick={() => setShowReply(false)} style={{ marginLeft: "6px" }}>
-              Cancel
-            </button>
+            <div style={{ display: "flex", gap: "6px" }}>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  if (!replyText.trim()) return;
+                  addReply(comment.id, replyText.trim(), replyAuthor.trim() || "Anonymous");
+                  setReplyText("");
+                  setReplyAuthor("");
+                  setShowReply(false);
+                }}
+              >
+                Add Reply
+              </button>
+              <button className="btn btn-ghost" onClick={() => setShowReply(false)}>
+                Cancel
+              </button>
+            </div>
           </div>
         )}
       </div>
 
-      {comment.children.map((child) => (
-        <Comment
-          key={child.id}
-          comment={child}
-          addReply={addReply}
-          deleteComment={deleteComment}
-          editComment={editComment}
-          likeComment={likeComment}
-        />
-      ))}
+      {comment.children.length > 0 && (
+        <div className="comment-children">
+          {comment.children.map((child) => (
+            <Comment
+              key={child.id}
+              comment={child}
+              addReply={addReply}
+              deleteComment={deleteComment}
+              editComment={editComment}
+              likeComment={likeComment}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

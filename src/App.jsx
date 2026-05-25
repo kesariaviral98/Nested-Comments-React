@@ -47,10 +47,10 @@ const App = () => {
     setComments(removeFromTree(comments));
   };
 
-  const editComment = (targetId, newText) => {
+  const editComment = (targetId, updatedText) => {
     const updateTree = (nodes) =>
       nodes.map((c) => {
-        if (c.id === targetId) return { ...c, text: newText, edited: true };
+        if (c.id === targetId) return { ...c, text: updatedText, edited: true };
         return { ...c, children: updateTree(c.children) };
       });
     setComments(updateTree(comments));
@@ -67,24 +67,26 @@ const App = () => {
 
   return (
     <div>
-      <h2>Nested Comments</h2>
+      <h2 className="page-title">Nested Comments</h2>
 
-      <div style={{ marginBottom: "20px", padding: "12px", border: "1px solid #ccc" }}>
-        <h3 style={{ margin: "0 0 8px" }}>Add a Comment</h3>
+      <div className="new-comment-form">
+        <h3>Add a Comment</h3>
         <input
+          className="form-input"
           placeholder="Your name"
           value={newAuthor}
           onChange={(e) => setNewAuthor(e.target.value)}
-          style={{ display: "block", marginBottom: "6px" }}
         />
         <textarea
+          className="form-textarea"
           placeholder="What's on your mind?"
           value={newText}
           onChange={(e) => setNewText(e.target.value)}
           rows={3}
-          style={{ display: "block", width: "400px", marginBottom: "6px" }}
         />
-        <button onClick={addTopLevel}>Post Comment</button>
+        <button className="btn btn-primary" onClick={addTopLevel}>
+          Post Comment
+        </button>
       </div>
 
       {comments.map((comment) => (
