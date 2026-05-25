@@ -5,7 +5,7 @@ const formatDate = (iso) => {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 };
 
-const Comment = ({ comment, addReply, deleteComment, editComment }) => {
+const Comment = ({ comment, addReply, deleteComment, editComment, likeComment }) => {
   const [showReply, setShowReply] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [replyAuthor, setReplyAuthor] = useState("");
@@ -46,7 +46,10 @@ const Comment = ({ comment, addReply, deleteComment, editComment }) => {
           <p style={{ margin: "4px 0 8px" }}>{comment.text}</p>
         )}
 
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <button onClick={() => likeComment(comment.id)}>
+            ▲ {comment.likes}
+          </button>
           <button onClick={() => setShowReply(!showReply)}>Reply</button>
           <button onClick={() => { setIsEditing(true); setEditText(comment.text); }}>Edit</button>
           <button onClick={() => deleteComment(comment.id)} style={{ color: "red" }}>Delete</button>
@@ -91,6 +94,7 @@ const Comment = ({ comment, addReply, deleteComment, editComment }) => {
           addReply={addReply}
           deleteComment={deleteComment}
           editComment={editComment}
+          likeComment={likeComment}
         />
       ))}
     </div>

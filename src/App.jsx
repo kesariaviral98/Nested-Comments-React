@@ -31,13 +31,11 @@ const App = () => {
       createdAt: new Date().toISOString(),
       children: []
     };
-
     const updateTree = (nodes) =>
       nodes.map((c) => {
         if (c.id === parentId) return { ...c, children: [...c.children, newComment] };
         return { ...c, children: updateTree(c.children) };
       });
-
     setComments(updateTree(comments));
   };
 
@@ -46,7 +44,6 @@ const App = () => {
       nodes
         .filter((c) => c.id !== targetId)
         .map((c) => ({ ...c, children: removeFromTree(c.children) }));
-
     setComments(removeFromTree(comments));
   };
 
@@ -56,7 +53,15 @@ const App = () => {
         if (c.id === targetId) return { ...c, text: newText, edited: true };
         return { ...c, children: updateTree(c.children) };
       });
+    setComments(updateTree(comments));
+  };
 
+  const likeComment = (targetId) => {
+    const updateTree = (nodes) =>
+      nodes.map((c) => {
+        if (c.id === targetId) return { ...c, likes: c.likes + 1 };
+        return { ...c, children: updateTree(c.children) };
+      });
     setComments(updateTree(comments));
   };
 
@@ -89,6 +94,7 @@ const App = () => {
           addReply={addReply}
           deleteComment={deleteComment}
           editComment={editComment}
+          likeComment={likeComment}
         />
       ))}
     </div>
