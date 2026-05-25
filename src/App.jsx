@@ -5,28 +5,21 @@ import commentsData from "./data";
 const App = () => {
   const [comments, setComments] = useState(commentsData);
 
-  const addReply = (parentId, text) => {
+  const addReply = (parentId, text, author) => {
     const newComment = {
       id: Date.now(),
+      author,
       text,
+      likes: 0,
+      createdAt: new Date().toISOString(),
       children: []
     };
 
-    const updateTree = (comments) => {
-      return comments.map((comment) => {
-        if (comment.id === parentId) {
-          return {
-            ...comment,
-            children: [...comment.children, newComment]
-          };
-        }
-
-        return {
-          ...comment,
-          children: updateTree(comment.children)
-        };
+    const updateTree = (nodes) =>
+      nodes.map((c) => {
+        if (c.id === parentId) return { ...c, children: [...c.children, newComment] };
+        return { ...c, children: updateTree(c.children) };
       });
-    };
 
     setComments(updateTree(comments));
   };
@@ -34,13 +27,8 @@ const App = () => {
   return (
     <div>
       <h2>Nested Comments</h2>
-
       {comments.map((comment) => (
-        <Comment
-          key={comment.id}
-          comment={comment}
-          addReply={addReply}
-        />
+        <Comment key={comment.id} comment={comment} addReply={addReply} />
       ))}
     </div>
   );
