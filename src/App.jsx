@@ -41,6 +41,15 @@ const App = () => {
     setComments(updateTree(comments));
   };
 
+  const deleteComment = (targetId) => {
+    const removeFromTree = (nodes) =>
+      nodes
+        .filter((c) => c.id !== targetId)
+        .map((c) => ({ ...c, children: removeFromTree(c.children) }));
+
+    setComments(removeFromTree(comments));
+  };
+
   return (
     <div>
       <h2>Nested Comments</h2>
@@ -64,7 +73,12 @@ const App = () => {
       </div>
 
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} addReply={addReply} />
+        <Comment
+          key={comment.id}
+          comment={comment}
+          addReply={addReply}
+          deleteComment={deleteComment}
+        />
       ))}
     </div>
   );

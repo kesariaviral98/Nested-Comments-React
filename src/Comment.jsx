@@ -5,7 +5,7 @@ const formatDate = (iso) => {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 };
 
-const Comment = ({ comment, addReply }) => {
+const Comment = ({ comment, addReply, deleteComment }) => {
   const [showInput, setShowInput] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [replyAuthor, setReplyAuthor] = useState("");
@@ -19,7 +19,15 @@ const Comment = ({ comment, addReply }) => {
         </div>
         <p style={{ margin: "4px 0 8px" }}>{comment.text}</p>
 
-        <button onClick={() => setShowInput(!showInput)}>Reply</button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button onClick={() => setShowInput(!showInput)}>Reply</button>
+          <button
+            onClick={() => deleteComment(comment.id)}
+            style={{ color: "red" }}
+          >
+            Delete
+          </button>
+        </div>
 
         {showInput && (
           <div style={{ marginTop: "8px" }}>
@@ -54,7 +62,12 @@ const Comment = ({ comment, addReply }) => {
       </div>
 
       {comment.children.map((child) => (
-        <Comment key={child.id} comment={child} addReply={addReply} />
+        <Comment
+          key={child.id}
+          comment={child}
+          addReply={addReply}
+          deleteComment={deleteComment}
+        />
       ))}
     </div>
   );
