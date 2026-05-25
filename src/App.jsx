@@ -50,6 +50,16 @@ const App = () => {
     setComments(removeFromTree(comments));
   };
 
+  const editComment = (targetId, newText) => {
+    const updateTree = (nodes) =>
+      nodes.map((c) => {
+        if (c.id === targetId) return { ...c, text: newText, edited: true };
+        return { ...c, children: updateTree(c.children) };
+      });
+
+    setComments(updateTree(comments));
+  };
+
   return (
     <div>
       <h2>Nested Comments</h2>
@@ -78,6 +88,7 @@ const App = () => {
           comment={comment}
           addReply={addReply}
           deleteComment={deleteComment}
+          editComment={editComment}
         />
       ))}
     </div>
